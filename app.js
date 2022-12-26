@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 
-const homeStartingContent = "This is the homeStartingContent.";
+const homeContent = "This is the homeStartingContent.";
 const aboutContent = "This is the aboutContent.";
 const contactContent = "This is the contactContent.";
 
@@ -15,11 +15,30 @@ app.use(express.static("public"));
 
 app.get("/", function(req, res) {
 	res.render("home", { //.ejs not needed - {} is simply a js object (key:value)
-		homeContent: homeStartingContent
+		homeContent: homeContent
 	});
 });
 
+app.get("/about", function(req, res) {
+	res.render("about", {
+		aboutContent: aboutContent
+	});
+})
 
+app.get("/contact", function(req, res) {
+	res.render("contact", {
+		contactContent: contactContent
+	});
+})
+
+app.get("/compose", function(req, res) {
+	res.render("compose");
+})
+
+app.post("/compose", function(req, res) {
+	let entry = req.body.newPost
+	console.log(entry);
+})
 
 
 app.listen(3000, function(req, res) {
