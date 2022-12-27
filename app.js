@@ -8,36 +8,48 @@ const contactContent = "This is the contactContent.";
 
 const app = express();
 
-const posts = [];
-
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 
+const posts = [];
+
 app.get("/", function(req, res) {
 	res.render("home", { //.ejs not needed - {} is simply a js object (key:value)
-		homeContent: homeContent
+		homeContent: homeContent,
+		posts: posts
 	});
+});
 
-	console.log(posts);
+app.get("/posts/:postName", function(req, res) {
+
+
+	posts.forEach(function(post) {
+
+		if(req.params.postName === post.title) {
+			console.log("Match found");
+		} else {
+			console.log("No match");
+		}
+	});
 });
 
 app.get("/about", function(req, res) {
 	res.render("about", {
 		aboutContent: aboutContent
 	});
-})
+});
 
 app.get("/contact", function(req, res) {
 	res.render("contact", {
 		contactContent: contactContent
 	});
-})
+});
 
 app.get("/compose", function(req, res) {
 	res.render("compose");
-})
+});
 
 app.post("/compose", function(req, res) {
 	const post = {
@@ -49,7 +61,6 @@ app.post("/compose", function(req, res) {
 
 	res.redirect("/");
 
-	console.log(post);
 });
 
 
