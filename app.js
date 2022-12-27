@@ -8,6 +8,8 @@ const contactContent = "This is the contactContent.";
 
 const app = express();
 
+const posts = [];
+
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({extended:true}));
@@ -17,6 +19,8 @@ app.get("/", function(req, res) {
 	res.render("home", { //.ejs not needed - {} is simply a js object (key:value)
 		homeContent: homeContent
 	});
+
+	console.log(posts);
 });
 
 app.get("/about", function(req, res) {
@@ -40,6 +44,10 @@ app.post("/compose", function(req, res) {
 		title:req.body.postTitle,
 		content: req.body.postBody
 	};
+
+	posts.push(post);
+
+	res.redirect("/");
 
 	console.log(post);
 });
