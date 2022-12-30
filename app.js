@@ -17,6 +17,7 @@ app.use(express.static("public"));
 const posts = [{title: "Title", content: "Content with lots of awesome text"}];
 
 app.get("/", function(req, res) {
+
 	res.render("home", { //.ejs not needed - {} is simply a js object (key:value)
 		homeContent: homeContent,
 		posts: posts
@@ -30,8 +31,6 @@ app.get("/posts/:postName", function(req, res) {
 		const storedTitle = _.lowerCase(post.title);
 
 		if(storedTitle === requestedTitle) {
-			console.log("Match found");
-
 			res.render("post", {
 				post: post
 			})
