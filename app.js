@@ -14,7 +14,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 
-const posts = [];
+const posts = [{title: "Title", content: "Content with lots of awesome text"}];
 
 app.get("/", function(req, res) {
 	res.render("home", { //.ejs not needed - {} is simply a js object (key:value)
@@ -24,15 +24,20 @@ app.get("/", function(req, res) {
 });
 
 app.get("/posts/:postName", function(req, res) {
+	const requestedTitle = _.lowerCase(req.params.postName);
 
 	posts.forEach(function(post) {
+		const storedTitle = _.lowerCase(post.title);
 
-		if(_.lowerCase(post.title) === _.lowerCase(req.params.postName)) {
+		if(storedTitle === requestedTitle) {
 			console.log("Match found");
-		} else {
-			console.log("No match");
+
+			res.render("post", {
+				post: post
+			})
 		}
 	});
+
 });
 
 app.get("/about", function(req, res) {
@@ -58,7 +63,7 @@ app.post("/compose", function(req, res) {
 	};
 
 	posts.push(post);
-	console.log(post);
+
 	res.redirect("/");
 });
 
